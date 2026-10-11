@@ -1,0 +1,1 @@
+{ "rewrites": [ { "source": "/go/:name", "destination": "/api/go?name=:name" } ] }
