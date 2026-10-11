@@ -2,7 +2,7 @@ const { sendCapi } = require('./_lib');
 const TARGETS = {
   reservasi: { to: 'https://api.whatsapp.com/send?phone=6285168248761', event: 'Contact', custom: { content_name: 'Reservasi' } },
   menu: { to: 'https://drive.google.com/file/d/1aMnn_xKlsVtgxA3R6J4ee0MVd6on79GT/preview', event: 'ViewContent', custom: { content_name: 'Menu' } },
-  lokasi: { to: 'https://maps.app.goo.gl/g6HqN2yc8HHmVCaT6', event: 'FindLocation', custom: { content_name: 'Lokasi' } },
+  lokasi: { to: 'https://maps.app.goo.gl/RgVAuPTpd1K9qGeE8', event: 'FindLocation', custom: { content_name: 'Lokasi' } },
 };
 module.exports = async (req, res) => {
   const q = req.query || {};
