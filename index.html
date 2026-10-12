@@ -75,8 +75,15 @@ document.cookie='fd_uid='+uid+';max-age=31536000;path=/;SameSite=Lax;Secure'}
 window.fdEid=function(){return 'e'+Date.now().toString(36)+Math.random().toString(36).slice(2,9)};
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
 fbq('init','1118368660702185',{external_id:uid});
+// traffic source (UTM + referrer host); kept for the visit in a session cookie so button clicks carry it too
+var SRC=(function(){var o={},q;try{q=new URLSearchParams(location.search)}catch(e){q=null}
+if(q)['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(function(k){var v=q.get(k);if(v)o[k]=v.slice(0,100)});
+try{var h=new URL(document.referrer).hostname;if(h&&h!==location.hostname)o.referrer=h.slice(0,100)}catch(e){}
+if(Object.keys(o).length){try{document.cookie='fd_src='+encodeURIComponent(JSON.stringify(o))+';path=/;SameSite=Lax;Secure'}catch(e){}return o}
+try{return JSON.parse(ck('fd_src')||'{}')||{}}catch(e){return {}}})();
+function withSrc(p){for(var k in SRC)p[k]=SRC[k];return p}
 var pe=fdEid();
-fbq('track','PageView',{},{eventID:pe});
+fbq('track','PageView',withSrc({content_category:'landing',content_type:'page'}),{eventID:pe});
 // server-side copy (same event_id => Meta de-duplicates); wait a moment so the _fbp cookie exists
 setTimeout(function(){try{fetch('/api/pv',{method:'POST',keepalive:true,headers:{'content-type':'application/json'},body:JSON.stringify({eid:pe,url:location.href})})}catch(e){}},1200);
 var EV={reservasi:['Contact','Reservasi'],menu:['ViewContent','Menu'],lokasi:['FindLocation','Lokasi']};
@@ -84,7 +91,7 @@ document.addEventListener('click',function(ev){
 var a=ev.target.closest&&ev.target.closest('a[data-ev]');if(!a)return;
 var k=a.getAttribute('data-ev'),d=EV[k];if(!d)return;
 var id=fdEid();
-try{fbq('track',d[0],{content_name:d[1]},{eventID:id})}catch(e){}
+try{fbq('track',d[0],withSrc({content_name:d[1],content_category:k,content_type:'cta_button'}),{eventID:id})}catch(e){}
 a.href='/go/'+k+'?eid='+id;
 },true);
 })();

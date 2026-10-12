@@ -1,8 +1,8 @@
 const { sendCapi } = require('./_lib');
 const TARGETS = {
-  reservasi: { to: 'https://api.whatsapp.com/send?phone=6285168248761', event: 'Contact', custom: { content_name: 'Reservasi' } },
-  menu: { to: 'https://drive.google.com/file/d/1aMnn_xKlsVtgxA3R6J4ee0MVd6on79GT/preview', event: 'ViewContent', custom: { content_name: 'Menu' } },
-  lokasi: { to: 'https://maps.app.goo.gl/RgVAuPTpd1K9qGeE8', event: 'FindLocation', custom: { content_name: 'Lokasi' } },
+  reservasi: { to: 'https://api.whatsapp.com/send?phone=6285168248761', event: 'Contact', custom: { content_name: 'Reservasi', content_category: 'reservasi', content_type: 'cta_button' } },
+  menu: { to: 'https://drive.google.com/file/d/1aMnn_xKlsVtgxA3R6J4ee0MVd6on79GT/preview', event: 'ViewContent', custom: { content_name: 'Menu', content_category: 'menu', content_type: 'cta_button' } },
+  lokasi: { to: 'https://maps.app.goo.gl/RgVAuPTpd1K9qGeE8', event: 'FindLocation', custom: { content_name: 'Lokasi', content_category: 'lokasi', content_type: 'cta_button' } },
 };
 module.exports = async (req, res) => {
   const q = req.query || {};

@@ -7,11 +7,57 @@ function cookies(req) {
   const o = {};
   (req.headers.cookie || '').split(';').forEach(p => {
     const i = p.indexOf('=');
-    if (i > 0) o[p.slice(0, i).trim()] = decodeURIComponent(p.slice(i + 1).trim());
+    if (i > 0) {
+      const k = p.slice(0, i).trim();
+      const v = p.slice(i + 1).trim();
+      try { o[k] = decodeURIComponent(v); } catch (e) { o[k] = v; }
+    }
   });
   return o;
 }
 const sha = s => crypto.createHash('sha256').update(String(s).trim().toLowerCase()).digest('hex');
+
+// Meta normalisation for geo fields: lowercase, no accents, letters/digits only, then SHA-256
+const norm = s => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]/g, '');
+const hashNorm = s => { const n = norm(s); return n ? crypto.createHash('sha256').update(n).digest('hex') : ''; };
+const dec = s => { try { return decodeURIComponent(s); } catch (e) { return String(s || ''); } };
+
+// fbc fallback: build from ?fbclid= in the page URL when the _fbc cookie is not there yet
+function fbcFromUrl(url) {
+  try {
+    const id = new URL(url).searchParams.get('fbclid');
+    if (id && /^[\w-]{10,500}$/.test(id)) return `fb.1.${Date.now()}.${id}`;
+  } catch (e) { /* ignore */ }
+  return '';
+}
+
+// Traffic source: UTM params from the page URL, falling back to the fd_src cookie set by the page
+const UTM = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+function sourceParams(c, url) {
+  const out = {};
+  let q = null;
+  try { q = new URL(url).searchParams; } catch (e) { /* ignore */ }
+  let ck = {};
+  try { ck = JSON.parse(c.fd_src || '{}') || {}; } catch (e) { ck = {}; }
+  for (const k of UTM) {
+    const v = (q && q.get(k)) || ck[k];
+    if (v) out[k] = String(v).slice(0, 100);
+  }
+  if (ck.referrer) out.referrer = String(ck.referrer).slice(0, 100);
+  return out;
+}
+
+function geo(req) {
+  const h = req.headers;
+  const o = {};
+  const country = norm(h['x-vercel-ip-country']);
+  const st = norm(dec(h['x-vercel-ip-country-region'] || ''));
+  const ct = norm(dec(h['x-vercel-ip-city'] || ''));
+  if (country) o.country = [hashNorm(country)];
+  if (st) o.st = [hashNorm(st)];
+  if (ct) o.ct = [hashNorm(ct)];
+  return o;
+}
 
 async function sendCapi(req, { name, eid, url, custom }) {
   if (!TOKEN) return { skipped: 'no token' };
@@ -19,9 +65,10 @@ async function sendCapi(req, { name, eid, url, custom }) {
   if (/bot|crawl|spider|facebookexternalhit|preview/i.test(ua)) return { skipped: 'bot' };
   const c = cookies(req);
   const ip = (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || req.socket?.remoteAddress;
-  const user = { client_ip_address: ip, client_user_agent: ua };
+  const user = { client_ip_address: ip, client_user_agent: ua, ...geo(req) };
+  const fbc = c._fbc || fbcFromUrl(url);
   if (c._fbp) user.fbp = c._fbp;
-  if (c._fbc) user.fbc = c._fbc;
+  if (fbc) user.fbc = fbc;
   if (c.fd_uid) user.external_id = [sha(c.fd_uid)];
   const body = {
     data: [{
@@ -31,7 +78,7 @@ async function sendCapi(req, { name, eid, url, custom }) {
       event_source_url: url,
       action_source: 'website',
       user_data: user,
-      custom_data: custom || undefined,
+      custom_data: { ...(custom || {}), ...sourceParams(c, url) },
     }],
   };
   if (TEST_CODE) body.test_event_code = TEST_CODE;
@@ -49,4 +96,4 @@ async function sendCapi(req, { name, eid, url, custom }) {
     return { error: e.message };
   } finally { clearTimeout(t); }
 }
-module.exports = { sendCapi };
+module.exports = { sendCapi, _t: { geo, fbcFromUrl, sourceParams, cookies, hashNorm } };
