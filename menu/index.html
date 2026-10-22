@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Menu | FLOR DELI</title>
+<meta name="description" content="Menu FLOR DELI. Buka setiap hari 07.00-22.00.">
+<meta name="theme-color" content="#8A110C">
+<meta property="og:title" content="Menu | FLOR DELI">
+<meta property="og:description" content="Lihat menu makanan dan minuman FLOR DELI.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://flordeli.id/menu">
+<link rel="preload" href="/assets/CoasterSans-Regular.otf" as="font" type="font/otf" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500&amp;family=Outfit:wght@400;600&amp;display=swap">
+<style>
+@font-face{font-family:'Coaster Sans';src:url("/assets/CoasterSans-Regular.otf") format("opentype");font-display:swap}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;color:#F3E8D4;font-family:'DM Sans',sans-serif;
+  background:repeating-linear-gradient(90deg,#8A110C 0,#8A110C 55.714px,#9E1D16 55.714px,#9E1D16 111.428px) #8A110C}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;background:url(/assets/paper.png) 0 0/200px 200px;z-index:0}
+a{color:inherit}
+.wrap{position:relative;z-index:1;max-width:480px;margin:0 auto;padding:0 20px 56px}
+.awn{position:relative;z-index:3;height:26px;overflow:hidden;box-shadow:0 3px 0 #6A0F0B;margin:0 -20px}
+.awn img{display:block;width:100%;height:44px;object-fit:cover}
+.top{display:flex;align-items:center;justify-content:space-between;padding:18px 0 4px}
+.back{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font:400 14px 'Outfit',sans-serif;letter-spacing:.06em;padding:8px 0}
+.back svg{width:18px;height:18px}
+.hours{font:400 13px 'Outfit',sans-serif;letter-spacing:.04em;opacity:.85}
+h1{margin:6px 0 2px;text-align:center;font:400 44px/1 'Coaster Sans',sans-serif;letter-spacing:.08em}
+.sub{margin:0 0 18px;text-align:center;font:400 13px 'Outfit',sans-serif;letter-spacing:.24em;opacity:.9}
+.tabs{position:sticky;top:0;z-index:5;display:flex;gap:10px;overflow-x:auto;padding:10px 20px;margin:0 -20px 8px;background:#8A110C;box-shadow:0 3px 0 #6A0F0B;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:none;text-decoration:none;padding:9px 18px;border-radius:20px;background:#A5B8C6;color:#A32620;
+  font:400 17px/1 'Coaster Sans',sans-serif;letter-spacing:.07em;box-shadow:3px 3px 0 #6A0F0B}
+.tabs a:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #6A0F0B}
+.tabs a:focus-visible,.back:focus-visible{outline:3px dashed #F3E8D4;outline-offset:3px}
+section{scroll-margin-top:70px;padding-top:18px}
+h2{margin:0 0 14px;font:400 28px/1 'Coaster Sans',sans-serif;letter-spacing:.08em}
+.list{display:flex;flex-direction:column;gap:16px}
+.card{display:flex;gap:14px;align-items:stretch;background:#F3E8D4;color:#1A1210;border-radius:22px;padding:12px;box-shadow:5px 5px 0 #6A0F0B}
+.pic{flex:none;width:96px;height:96px;border-radius:16px;background:#A5B8C6;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.pic img{width:100%;height:100%;object-fit:cover;display:block}
+.pic img.ph{width:46px;height:auto;object-fit:contain;opacity:.9}
+.info{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px;justify-content:center}
+.name{font:400 21px/1.05 'Coaster Sans',sans-serif;letter-spacing:.05em;color:#A32620}
+.desc{font:500 14px/1.25 'DM Sans',sans-serif;opacity:.85}
+.price{margin-top:2px;font:600 15px 'Outfit',sans-serif;color:#1A1210}
+.tag{align-self:flex-start;font:400 10px 'Outfit',sans-serif;letter-spacing:.1em;background:#A32620;color:#F3E8D4;padding:2px 7px;border-radius:10px}
+.note{margin:28px 0 0;text-align:center;font:400 12px/1.5 'Outfit',sans-serif;letter-spacing:.04em;opacity:.8}
+.cta{display:block;margin:22px auto 0;width:max-content;text-decoration:none;background:#F3E8D4;color:#A32620;padding:14px 26px;border-radius:24px;
+  font:400 20px/1 'Coaster Sans',sans-serif;letter-spacing:.07em;box-shadow:5px 5px 0 #6A0F0B}
+.cta:active{transform:translate(4px,4px);box-shadow:1px 1px 0 #6A0F0B}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+<script>
+(function(){
+function ck(n){var m=document.cookie.match(new RegExp('(?:^|; )'+n+'=([^;]*)'));return m?decodeURIComponent(m[1]):''}
+var uid=ck('fd_uid');
+if(!uid){uid=(self.crypto&&crypto.randomUUID)?crypto.randomUUID():String(Date.now())+Math.random().toString(36).slice(2);
+document.cookie='fd_uid='+uid+';max-age=31536000;path=/;SameSite=Lax;Secure'}
+function eid(){return 'e'+Date.now().toString(36)+Math.random().toString(36).slice(2,9)}
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','1118368660702185',{external_id:uid});
+var pe=eid();
+fbq('track','PageView',{content_category:'menu',content_type:'page'},{eventID:pe});
+setTimeout(function(){try{fetch('/api/pv',{method:'POST',keepalive:true,headers:{'content-type':'application/json'},body:JSON.stringify({eid:pe,url:location.href,cat:'menu'})})}catch(e){}},1200);
+})();
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1118368660702185&ev=PageView&noscript=1" alt=""></noscript>
+<script src="/menu/menu-data.js"></script>
+</head>
+<body>
+<div class="awn" aria-hidden="true"><img src="/assets/awning.png" alt=""></div>
+<div class="wrap">
+  <div class="top">
+    <a class="back" href="/"><svg viewBox="0 0 26 26" aria-hidden="true"><path d="M22 13H5M12 6l-7 7 7 7" fill="none" stroke="#F3E8D4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>BERANDA</a>
+    <span class="hours">07.00-22.00</span>
+  </div>
+  <h1>MENU</h1>
+  <p class="sub">FLOR DELI</p>
+  <nav class="tabs" id="tabs" aria-label="Kategori menu"></nav>
+  <main id="menu"></main>
+  <a class="cta" href="/go/reservasi">RESERVASI</a>
+  <p class="note">Harga dapat berubah sewaktu-waktu.</p>
+</div>
+<script>
+(function(){
+var data=window.FLOR_MENU||[],tabs=document.getElementById('tabs'),main=document.getElementById('menu');
+function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
+function rp(n){return 'Rp '+String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.')}
+data.forEach(function(cat){
+  if(!cat.items||!cat.items.length)return;
+  var a=el('a',null,cat.title.toUpperCase());a.href='#'+cat.id;tabs.appendChild(a);
+  var s=el('section');s.id=cat.id;s.appendChild(el('h2',null,cat.title.toUpperCase()));
+  var list=el('div','list');
+  cat.items.forEach(function(it){
+    var c=el('article','card'),pic=el('div','pic'),img=document.createElement('img');
+    if(it.image){img.src=it.image;img.alt=it.name;img.loading='lazy';img.decoding='async'}
+    else{img.src='/assets/fork.png';img.alt='';img.className='ph'}
+    pic.appendChild(img);
+    var info=el('div','info');
+    if(it.sample)info.appendChild(el('span','tag','CONTOH'));
+    info.appendChild(el('div','name',it.name));
+    if(it.desc)info.appendChild(el('div','desc',it.desc));
+    if(it.price)info.appendChild(el('div','price',rp(it.price)));
+    c.appendChild(pic);c.appendChild(info);list.appendChild(c);
+  });
+  s.appendChild(list);main.appendChild(s);
+});
+if(!tabs.children.length)tabs.style.display='none';
+})();
+</script>
+</body>
+</html>
